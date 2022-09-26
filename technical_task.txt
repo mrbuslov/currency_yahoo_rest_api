@@ -1,0 +1,42 @@
+We’d like you to build a REST API for us - a basic currency exchange database
+interacting with external API. Here’s full specification of endpoints that we’d like it to
+have:
+
+GET /currency/:
+Should fetch a list of all currencies already present in the applicationdatabase.
+Additional filtering, sorting is fully optional - but some implementation is abonus.
+GET /currency/EUR/USD/:
+Should return exchange rate for EUR/USD
+
+Rules
+Load data from external database. We recommend Yahoo andhttps://github.com/ranaroussi/yfinance but you can change.
+Goal is to implement the REST API in Django. You're free to use any third-partylibraries - sharing your reasoning behind choosing them is welcome!
+Database selection is limited to MySQL or SqlLite
+Basic tests of endpoints are obligatory. Their exact scope is left up to you.
+We do not require any authorization/authentication system(s).
+The application's code should be in a public repository!
+
+
+
+yfinance is for retrieving and analyzing market data 
+
+
+
+
+Мы хотели бы, чтобы вы создали для нас REST API — базовую базу данных обмена валюты.
+взаимодействие с внешним API. Вот полная спецификация конечных точек, которые мы хотели бы
+имеют:
+
+GET /currency/:
+Должен получить список всех валют, уже присутствующих в базе данных приложения.
+Дополнительная фильтрация, сортировка совершенно необязательны, но некоторая реализация является излишним.
+GET /currency/EUR/USD/:
+Должен возвращать обменный курс для EUR/USD
+
+Правила
+Загрузить данные из внешней базы данных. Мы рекомендуем Yahoo и https://github.com/ranaroussi/yfinance, но вы можете изменить.
+Цель состоит в том, чтобы реализовать REST API в Django. Вы можете использовать любые сторонние библиотеки — приветствуются ваши аргументы в пользу их выбора!
+Выбор базы данных ограничен MySQL или SqlLite.
+Базовые тесты конечных точек обязательны. Их точный объем остается на ваше усмотрение.
+Нам не требуются какие-либо системы авторизации/аутентификации.
+Код приложения должен быть в публичном репозитории!
