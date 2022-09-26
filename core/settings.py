@@ -10,6 +10,10 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
 
 
 INSTALLED_APPS = [
@@ -21,8 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'currency',
-    # 'api',
     'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

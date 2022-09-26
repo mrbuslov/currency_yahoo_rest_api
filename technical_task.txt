@@ -9,7 +9,7 @@ GET /currency/EUR/USD/:
 Should return exchange rate for EUR/USD
 
 Rules
-Load data from external database. We recommend Yahoo andhttps://github.com/ranaroussi/yfinance but you can change.
+Load data from external database. We recommend Yahoo and https://github.com/ranaroussi/yfinance but you can change.
 Goal is to implement the REST API in Django. You're free to use any third-partylibraries - sharing your reasoning behind choosing them is welcome!
 Database selection is limited to MySQL or SqlLite
 Basic tests of endpoints are obligatory. Their exact scope is left up to you.

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics, permissions
+from rest_framework.response import Response
 from currency.models import *
 from . import serializers
 from rest_framework import viewsets
@@ -7,11 +8,27 @@ from . import permissions as overrided_permissions
 import re
 import yfinance as yf
 import datetime
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 class CurrencyList(generics.ListAPIView): # CurrencyList provides read-only access (via get) to a list of currencies
     queryset = Currency.objects.all()
     serializer_class = serializers.CurrencySerializer
     permission_classes = [permissions.IsAdminUser, permissions.IsAuthenticatedOrReadOnly]
+    # filterset_fields  = ('name',)
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter] # DjangoFilterBackend
+
+    '''
+    '^' Starts-with search.
+    '=' Exact matches.
+    '@' Full-text search. (Currently only supported Django's PostgreSQL backend.)
+    '$' Regex search.
+
+    search_fields = ['=username', '=email']
+    '''
+
+    search_fields  = ('name',)
+    ordering_fields = ['name']
     
 
 class CurrencyDetail(generics.RetrieveAPIView): # CurrencyDetail - to one currency
@@ -47,25 +64,28 @@ class ExchangeRateDetail(generics.RetrieveAPIView):
             if ExchangeRate.objects.filter(currency1=currency_1, currency2=currency_2, date__year=datetime.date.today().year, date__month=datetime.date.today().month, date__day=datetime.date.today().day).exists():
                 return ExchangeRate.objects.get(currency1=currency_1, currency2=currency_2, date__year=datetime.date.today().year, date__month=datetime.date.today().month, date__day=datetime.date.today().day)
             else:
-                exchange_data = yf.download(f'{currency_1}{currency_2}=X', start=datetime.date.today()).to_dict()
+                try:
+                    exchange_data = yf.download(f'{currency_1}{currency_2}=X', start=datetime.date.today()).to_dict()
 
-                open = next(iter(exchange_data['Open'].items()))[1]
-                high = next(iter(exchange_data['High'].items()))[1]
-                low = next(iter(exchange_data['Low'].items()))[1]
-                close = next(iter(exchange_data['Close'].items()))[1]
-                adj_close = next(iter(exchange_data['Adj Close'].items()))[1]
-                date = next(iter(exchange_data['Close'].items()))[0]
+                    open = next(iter(exchange_data['Open'].items()))[1]
+                    high = next(iter(exchange_data['High'].items()))[1]
+                    low = next(iter(exchange_data['Low'].items()))[1]
+                    close = next(iter(exchange_data['Close'].items()))[1]
+                    adj_close = next(iter(exchange_data['Adj Close'].items()))[1]
+                    date = next(iter(exchange_data['Close'].items()))[0]
 
 
-                exchange_rate = ExchangeRate.objects.create(
-                    currency1 = currency_1, 
-                    currency2 = currency_2,
-                    open_cost = open,
-                    high_cost = high,
-                    low_cost = low,
-                    close_cost = close,
-                    adj_close_cost = adj_close,
-                    date = date,
-                )
+                    exchange_rate = ExchangeRate.objects.create(
+                        currency1 = currency_1, 
+                        currency2 = currency_2,
+                        open_cost = open,
+                        high_cost = high,
+                        low_cost = low,
+                        close_cost = close,
+                        adj_close_cost = adj_close,
+                        date = date,
+                    )
 
-                return exchange_rate
+                    return exchange_rate
+                except:
+                    return Response({'message':'Error. Try again later.','error':True,'code':500,'result':{}})

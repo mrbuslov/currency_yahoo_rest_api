@@ -9,11 +9,11 @@ class CurrencySerializer(serializers.ModelSerializer):
 
     
 class ExchangeRateSerializer(serializers.ModelSerializer):
-    exchange_currency1 = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    exchange_currency2 = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    currency1 = serializers.PrimaryKeyRelatedField(read_only=True, source='currency1.name')
+    currency2 = serializers.PrimaryKeyRelatedField(read_only=True, source='currency2.name')
     class Meta:
         model = ExchangeRate
-        fields = ['id', 'exchange_currency1', 'exchange_currency2', 'open_cost', 'high_cost', 'low_cost', 'close_cost', 'adj_close_cost', 'date']
+        fields = ['id', 'currency1', 'currency2', 'open_cost', 'high_cost', 'low_cost', 'close_cost', 'adj_close_cost', 'date']
 
     
 
