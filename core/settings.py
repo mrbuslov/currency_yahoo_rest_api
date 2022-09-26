@@ -15,7 +15,6 @@ REST_FRAMEWORK = {
 }
 
 
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
