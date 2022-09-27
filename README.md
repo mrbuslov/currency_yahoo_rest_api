@@ -22,3 +22,9 @@ The application's code should be in a public repository!
 
 # Comments
 1. Yahoo is a great stock price tracking tool. Its big difference from other simpler services is that it gives price indicators at the opening and closing of the market, as well as the final price of the currency. The rest of the services give one value.
+
+2. I have created models in the database in order to record every request we send to Yahoo. This query takes a relatively long time, so it's better to write the received data to the database and get the data faster. If the day of the last record in the database does not coincide with the day of the new exchange rate, we will send a new query and add the updated data to the table. Also, if a person asks for some new currency, it will be added to the currency table.
+
+3. Added filtering by currency records (for demonstration purposes) in ascending and descending order; name search.
+
+4. As an additional feature, I added docker and fixtures (in the currency folder)
